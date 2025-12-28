@@ -111,7 +111,10 @@ for role, content in st.session_state.chat:
     st.chat_message(role).write(content)
 
 # ---------- input ----------
-user_input = st.chat_input("Type your question and press Enter")
+user_input = st.chat_input(
+    "Type your question and press Enter",
+    key="chat_input_main"
+)
 
 if user_input:
     st.session_state.chat.append(("user", user_input))
