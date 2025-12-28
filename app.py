@@ -117,12 +117,7 @@ user_input = st.chat_input(
 )
 
 if user_input:
-    st.session_state.chat.append(("user", user_input))
-    st.chat_message("user").write(user_input)
-
-    user_input = st.chat_input("Type your question and press Enter")
-
-if user_input:
+    # show user message
     st.session_state.chat.append(("user", user_input))
     st.chat_message("user").write(user_input)
 
