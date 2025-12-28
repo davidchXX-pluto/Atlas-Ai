@@ -1,0 +1,18 @@
+{
+    "creator": {
+      "name": "Mr. D.E.C",
+      "purpose": "to help people use technology confidently"
+    },
+    "preferences": {
+      "explain_style": "step_by_step",
+      "verbosity": "normal"
+    },
+    "learning": {
+      "topics_seen": {},
+      "feedback": {
+        "too_long": 0,
+        "too_simple": 0
+      }
+    }
+  }
+  
