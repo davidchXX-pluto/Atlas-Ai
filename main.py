@@ -1,6 +1,6 @@
 import json
 import os
-from groq import Groq
+import google.generativeai as genai
 from dotenv import load_dotenv
 from duckduckgo_search import DDGS
 
@@ -25,9 +25,11 @@ def save_memory(memory):
 
 # ---------- setup ----------
 load_dotenv()
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+api_key = os.getenv("GEMINI_API_KEY")   # FIXED
+genai.configure(api_key=api_key)
+model = genai.GenerativeModel("gemini-2.5-flash")
 
-MODEL_NAME = "llama-3.3-70b-versatile"
+MODEL_NAME = "gemini-2.5-flash"
 
 INTENTS = {
     "weather": ["weather", "temperature", "forecast", "rain", "hot", "cold"],
@@ -137,32 +139,18 @@ while True:
 
         context = "\n".join(results)
 
-        response = client.chat.completions.create(
-            model=MODEL_NAME,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {
-                    "role": "user",
-                    "content": (
-                        f"Here is recent information:\n{context}\n\n"
-                        f"{instruction} Say it is based on recent available data."
-                    )
-                }
-            ],
-            temperature=0.3
+        response = model.generate_content(   # FIXED
+            f"{system_prompt}\n\n"
+            f"Here is recent information:\n{context}\n\n"
+            f"{instruction} Say it is based on recent available data."
         )
 
-        print("Atlas-AI:", response.choices[0].message.content)
+        print("Atlas-AI:", response.text)   # FIXED
         continue
 
     # NORMAL RESPONSE
-    response = client.chat.completions.create(
-        model=MODEL_NAME,
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_input}
-        ],
-        temperature=0.3
+    response = model.generate_content(   # FIXED
+        f"{system_prompt}\n\nUser: {user_input}"
     )
 
-    print("Atlas-AI:", response.choices[0].message.content)
+    print("Atlas-AI:", response.text)   # FIXED
